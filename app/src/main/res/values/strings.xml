@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CS482_Blackjack</string>
+    <string name="tenDiamondsDesc">10 of Diamonds</string>
 </resources>

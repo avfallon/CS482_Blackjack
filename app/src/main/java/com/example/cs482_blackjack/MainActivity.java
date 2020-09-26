@@ -9,6 +9,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        buildGuiByCode();
     }
+
+    public void buildGuiByCode() {
+        setContentView(R.layout.activity_main);
+
+    }
+
+    //Function to get a random card image from the image folder and add it to the appropriate layout
 }

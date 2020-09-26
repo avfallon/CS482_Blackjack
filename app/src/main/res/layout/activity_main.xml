@@ -8,56 +8,114 @@
     tools:context=".MainActivity">
 
 <!--    Layout for top buttons-->
+    <GridLayout
+        style="@style/ButtonLayout"
+        android:id="@+id/newFinishButtons"
+        >
 
+        <!--        New Game Button-->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|top"
+            android:text="New Game"
+            />
 
-<!--        New Game Button-->
+        <!--        Finish Turn Button-->
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:text="End Turn"
+            />
 
+    </GridLayout>
 
-<!--        Finish Turn Button-->
-
-
-<!--    Dealer Label-->
-
-
-<!--    Layout for the Dealer's card images-->
-
-
-<!--    Label used to send messages to the user-->
+    <!--    Dealer's Cards Label-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/newFinishButtons"
+        android:gravity="right"
+        android:text="Dealer's Cards"
+        android:id="@+id/dealerCardsLabel"
+        />
+
+    <!--    Layout for the Dealer's card images-->
+    <GridLayout
+        style="@style/CardLayout"
+        android:layout_below="@+id/dealerCardsLabel"
+        android:id="@+id/dealerCards"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_gravity="left|top"
+            android:src="@drawable/ten_of_hearts"
+            android:contentDescription="@string/tenDiamondsDesc"
+            />
+    </GridLayout>
+
+    <!--    Label used to send messages to the user-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dealerCards"
         android:text="Hit or Stop?"
         android:id="@+id/user_msg"
         android:gravity="center"
         />
 
-<!--    Layout for the user's card images-->
-
-
-<!--    Layout for Hit and Stop buttons-->
+    <!--    Layout for Hit and Stop buttons-->
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/ButtonLayout"
         android:layout_below="@+id/user_msg"
-        android:rowCount="1"
-        android:columnCount="2"
-        android:padding="20dp"
-        />
+        android:id="@+id/hitStopButtons"
+        >
 
-    <!--    Hit Button-->
+        <!--    Hit Button-->
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/user_msg"
+            android:layout_gravity="left|top"
+            android:layout_below="@+id/user_msg"
             android:text="Hit"
             />
 
-    <!--    Stop Button-->
+        <!--    Stop Button-->
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/user_msg"
+            android:layout_gravity="right|top"
             android:text="Stop"
             />
+    </GridLayout>
+
+<!--    User Cards Label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hitStopButtons"
+        android:text="Your Cards"
+        android:id="@+id/yourCardsLabel"
+        />
+
+
+    <!--    Layout for the user's card images-->
+    <GridLayout
+        style="@style/CardLayout"
+        android:layout_below="@+id/yourCardsLabel"
+        android:id="@+id/userCards"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="left|top"
+            android:src="@drawable/ten_of_hearts"
+            android:contentDescription="@string/tenDiamondsDesc"
+            />
+    </GridLayout>
 
 </RelativeLayout>
