@@ -18,6 +18,7 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     public int hitCount = 0;
+    public int userScore = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,9 +86,57 @@ public class MainActivity extends AppCompatActivity {
         int randInt1 = new Random().nextInt(52);
         int randInt2 = new Random().nextInt(52);
 
+        int firstCardScore = cardPulledScore(randInt1, userScore);
+        userScore += firstCardScore;
+        int secondCardScore = cardPulledScore(randInt2, userScore);
+        userScore += secondCardScore;
+
+        if (userScore == 21){
+            Log.w("W", "won");
+        }
+
         int[] cardDeck = fillDeck();
         userFirstCard.setBackgroundResource(cardDeck[randInt1]);
         userSecondCard.setBackgroundResource(cardDeck[randInt2]);
+
+    }
+
+    public int cardPulledScore(int randInt, int score){
+        if (randInt == 0 || randInt == 1 || randInt == 2 || randInt == 3){
+            return 2;
+        }
+        else if (randInt == 4 || randInt == 5 || randInt == 6 || randInt == 7){
+            return 3;
+        }
+        else if (randInt == 8 || randInt == 9 || randInt == 10 || randInt == 11){
+            return 4;
+        }
+        else if (randInt == 12 || randInt == 13 || randInt == 14 || randInt == 15){
+            return 5;
+        }
+        else if (randInt == 16 || randInt == 17 || randInt == 18 || randInt == 19){
+            return 6;
+        }
+        else if (randInt == 20 || randInt == 21 || randInt == 22 || randInt == 23){
+            return 7;
+        }
+        else if (randInt == 24 || randInt == 25 || randInt == 26 || randInt == 27){
+            return 8;
+        }
+        else if (randInt == 28 || randInt == 29 || randInt == 30 || randInt == 31){
+            return 9;
+        }
+        else if (randInt == 36 || randInt == 37 || randInt == 38 || randInt == 39){
+            if (score + 11 > 21){
+                return 1;
+            }
+            else {
+                return 11;
+            }
+        }
+        else {
+            return 10;
+        }
 
     }
 
