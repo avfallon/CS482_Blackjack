@@ -10,7 +10,7 @@
 <!--    Layout for top buttons-->
     <GridLayout
         style="@style/ButtonLayout"
-        android:id="@+id/newFinishButtons"
+        android:id="@+id/newGameLayout"
         >
 
         <!--        New Game Button-->
@@ -21,30 +21,22 @@
             android:text="New Game"
             />
 
-        <!--        Finish Turn Button-->
-        <Button
+        <!--    Dealer's Cards Label-->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|top"
-            android:text="End Turn"
+            android:gravity="right|bottom"
+            android:text="Dealer's Cards"
+            android:id="@+id/dealerCardsLabel"
+            android:textSize="20dp"
             />
 
     </GridLayout>
 
-    <!--    Dealer's Cards Label-->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/newFinishButtons"
-        android:gravity="right"
-        android:text="Dealer's Cards"
-        android:id="@+id/dealerCardsLabel"
-        />
-
     <!--    Layout for the Dealer's card images-->
     <GridLayout
         style="@style/CardLayout"
-        android:layout_below="@+id/dealerCardsLabel"
+        android:layout_below="@+id/newGameLayout"
         android:id="@+id/dealerCards"
         >
 
@@ -64,7 +56,9 @@
         android:layout_below="@+id/dealerCards"
         android:text="Hit or Stop?"
         android:id="@+id/user_msg"
+        android:textSize="25dp"
         android:gravity="center"
+        android:layout_marginTop="40dp"
         />
 
     <!--    Layout for Hit and Stop buttons-->
@@ -81,6 +75,7 @@
             android:layout_gravity="left|top"
             android:layout_below="@+id/user_msg"
             android:text="Hit"
+            android:onClick="hit"
             />
 
         <!--    Stop Button-->
@@ -98,6 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/hitStopButtons"
         android:text="Your Cards"
+        android:textSize="20dp"
         android:id="@+id/yourCardsLabel"
         />
 
