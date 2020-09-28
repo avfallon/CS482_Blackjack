@@ -14,11 +14,14 @@ import android.util.Log;
 import android.widget.GridLayout.LayoutParams;
 
 import java.util.Random;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     public int hitCount = 0;
     public int userScore = 0;
+    public int dealerScore = 0;
+    public ArrayList<Integer> userCards = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     //Function to get a random card image from the image folder and add it to the appropriate layout
     public void dealCard(int layoutID ) {
         int randInt = new Random().nextInt(52);
+        int cardScore = cardPulledScore(randInt, userScore);
+        userScore += cardScore;
+        userCards.add(randInt);
         //GridLayout layout = findViewById(layoutID);
         ImageView image = findViewById(layoutID);
         //This would be a call to the model
@@ -56,6 +62,14 @@ public class MainActivity extends AppCompatActivity {
 
     // Function accessed by 'hit' button in view, adds a card to the user's deck
     public void hit(View myBtn) {
+        if (userScore == 21){
+            System.out.println("You won");
+            return;
+        }
+        else if (userScore > 21){
+            System.out.println("Busted");
+            return;
+        }
         if (hitCount < 3){
             if (hitCount == 0){
                 dealCard(R.id.user2);
@@ -70,12 +84,25 @@ public class MainActivity extends AppCompatActivity {
                 hitCount++;
             }
         }
+        System.out.println(userScore);
+        if (userScore == 21){
+            System.out.println("You won");
+            return;
+        }
+        else if (userScore > 21){
+            checkForAce(userCards);
+            return;
+        }
     }
 
 
     // Resets the view to create a new game
     public void newGame() {
-
+        hitCount = 0;
+        userScore = 0;
+        dealerScore = 0;
+        userCards.clear();
+        initialDeal();
     }
 
     // Deals two cards to the User and two cards to the Dealer, called at the start of the game
@@ -83,21 +110,40 @@ public class MainActivity extends AppCompatActivity {
         ImageView userFirstCard = findViewById(R.id.user0);
         ImageView userSecondCard = findViewById(R.id.user1);
 
+        ImageView dealerFirstCard = findViewById(R.id.dealer0);
+        ImageView dealerSecondCard = findViewById(R.id.dealer1);
+
         int randInt1 = new Random().nextInt(52);
         int randInt2 = new Random().nextInt(52);
+
+        userCards.add(randInt1);
+        userCards.add(randInt2);
 
         int firstCardScore = cardPulledScore(randInt1, userScore);
         userScore += firstCardScore;
         int secondCardScore = cardPulledScore(randInt2, userScore);
         userScore += secondCardScore;
 
+        System.out.println(userScore);
         if (userScore == 21){
             Log.w("W", "won");
+            return;
         }
 
         int[] cardDeck = fillDeck();
         userFirstCard.setBackgroundResource(cardDeck[randInt1]);
         userSecondCard.setBackgroundResource(cardDeck[randInt2]);
+
+        randInt1 = new Random().nextInt(52);
+        randInt2 = new Random().nextInt(52);
+
+        int firstDealerScore = cardPulledScore(randInt1, dealerScore);
+        dealerScore += firstDealerScore;
+        int secondDealerScore = cardPulledScore(randInt2, dealerScore);
+        dealerScore += secondDealerScore;
+
+        dealerFirstCard.setBackgroundResource(cardDeck[randInt1]);
+        dealerSecondCard.setBackgroundResource(cardDeck[randInt2]);
 
     }
 
@@ -138,6 +184,17 @@ public class MainActivity extends AppCompatActivity {
             return 10;
         }
 
+    }
+
+    public void checkForAce(ArrayList<Integer> userCards){
+        for (Integer card: userCards){
+            if (card == 36 || card == 37 || card == 38 || card == 39){
+                if (userScore > 21){
+                    userScore -= 11;
+                    userScore += 1;
+                }
+            }
+        }
     }
 
 
