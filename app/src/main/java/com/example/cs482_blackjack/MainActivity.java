@@ -134,13 +134,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     System.out.println("You lost");
-                    return;
                 }
 
             }
             else if (dealerScore > 21){
                 checkForAce(userCards);
-                return;
             }
         }
     }
@@ -161,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void stopGame(View mybtn){
         findViewById(R.id.hitBtn).setClickable(false);
+        isDealer = true;
         dealersTurn();
     }
 
@@ -218,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Tie");
             }
         }
-        while (dealerScore < userScore && dealerScore < 21){
+        while (dealerScore <= userScore || dealerScore < 17){
             findViewById(R.id.hitBtn).performClick();
         }
     }
@@ -274,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         userScore -= 11;
                         userScore += 1;
+                        System.out.println("Adjusted for ace: " + userScore);
                     }
                 }
             }
