@@ -35,8 +35,6 @@
     </GridLayout>
 
     <!--    Layout for the Dealer's card images-->
-
-    <!--    Label used to send messages to the user-->
     <GridLayout
         android:id="@+id/dealerCards"
         style="@style/CardLayout"
@@ -80,6 +78,7 @@
 
     </GridLayout>
 
+    <!--    Label used to send messages to the user-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
