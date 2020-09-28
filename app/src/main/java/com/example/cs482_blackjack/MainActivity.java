@@ -19,9 +19,12 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     public int hitCount = 0;
+    public int dealerHitCount = 0;
     public int userScore = 0;
     public int dealerScore = 0;
     public ArrayList<Integer> userCards = new ArrayList<Integer>();
+    public ArrayList<Integer> dealerCards = new ArrayList<Integer>();
+    public boolean isDealer = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +52,14 @@ public class MainActivity extends AppCompatActivity {
     public void dealCard(int layoutID ) {
         int randInt = new Random().nextInt(52);
         int cardScore = cardPulledScore(randInt, userScore);
-        userScore += cardScore;
-        userCards.add(randInt);
+        if (!isDealer){
+            userScore += cardScore;
+            userCards.add(randInt);
+        }
+        else{
+            dealerScore += cardScore;
+            dealerCards.add(randInt);
+        }
         //GridLayout layout = findViewById(layoutID);
         ImageView image = findViewById(layoutID);
         //This would be a call to the model
@@ -62,47 +71,97 @@ public class MainActivity extends AppCompatActivity {
 
     // Function accessed by 'hit' button in view, adds a card to the user's deck
     public void hit(View myBtn) {
-        if (userScore == 21){
-            System.out.println("You won");
-            return;
-        }
-        else if (userScore > 21){
-            System.out.println("Busted");
-            return;
-        }
-        if (hitCount < 3){
-            if (hitCount == 0){
-                dealCard(R.id.user2);
-                hitCount++;
+        if (!isDealer){
+            if (userScore == 21){
+                System.out.println("You won");
+                return;
             }
-            else if (hitCount == 1){
-                dealCard(R.id.user3);
-                hitCount++;
+            else if (userScore > 21){
+                System.out.println("Busted");
+                return;
             }
-            else {
-                dealCard(R.id.user4);
-                hitCount++;
+            if (hitCount < 3){
+                if (hitCount == 0){
+                    dealCard(R.id.user2);
+                    hitCount++;
+                }
+                else if (hitCount == 1){
+                    dealCard(R.id.user3);
+                    hitCount++;
+                }
+                else {
+                    dealCard(R.id.user4);
+                    hitCount++;
+                }
+            }
+            System.out.println(userScore);
+            if (userScore == 21){
+                System.out.println("You won");
+                return;
+            }
+            else if (userScore > 21){
+                checkForAce(userCards);
+                return;
             }
         }
-        System.out.println(userScore);
-        if (userScore == 21){
-            System.out.println("You won");
-            return;
-        }
-        else if (userScore > 21){
-            checkForAce(userCards);
-            return;
+        else{
+            if (dealerScore == 21){
+                System.out.println("You won");
+                return;
+            }
+            else if (dealerScore > 21){
+                System.out.println("Busted");
+                return;
+            }
+            if (dealerHitCount < 3){
+                if (dealerHitCount == 0){
+                    dealCard(R.id.dealer2);
+                    dealerHitCount++;
+                }
+                else if (dealerHitCount == 1){
+                    dealCard(R.id.dealer3);
+                    dealerHitCount++;
+                }
+                else {
+                    dealCard(R.id.dealer4);
+                    dealerHitCount++;
+                }
+            }
+            System.out.println(dealerScore);
+            if (dealerScore == 21){
+                if(userScore == 21){
+                    System.out.println("tie");
+                }
+                else{
+                    System.out.println("You lost");
+                    return;
+                }
+
+            }
+            else if (dealerScore > 21){
+                checkForAce(userCards);
+                return;
+            }
         }
     }
 
 
     // Resets the view to create a new game
-    public void newGame() {
+    public void newGame(View myBtn) {
         hitCount = 0;
         userScore = 0;
         dealerScore = 0;
         userCards.clear();
+        findViewById(R.id.user0).setBackground(null);
+        findViewById(R.id.user1).setBackground(null);
+        findViewById(R.id.dealer0).setBackground(null);
+        findViewById(R.id.dealer1).setBackground(null);
         initialDeal();
+    }
+
+    public void stopGame(View mybtn){
+        findViewById(R.id.hitBtn).setClickable(false);
+        dealersTurn();
     }
 
     // Deals two cards to the User and two cards to the Dealer, called at the start of the game
@@ -137,6 +196,9 @@ public class MainActivity extends AppCompatActivity {
         randInt1 = new Random().nextInt(52);
         randInt2 = new Random().nextInt(52);
 
+        dealerCards.add(randInt1);
+        dealerCards.add(randInt2);
+
         int firstDealerScore = cardPulledScore(randInt1, dealerScore);
         dealerScore += firstDealerScore;
         int secondDealerScore = cardPulledScore(randInt2, dealerScore);
@@ -145,6 +207,20 @@ public class MainActivity extends AppCompatActivity {
         dealerFirstCard.setBackgroundResource(cardDeck[randInt1]);
         dealerSecondCard.setBackgroundResource(cardDeck[randInt2]);
 
+    }
+
+    public void dealersTurn(){
+        if (userScore > 21){
+            return;
+        }
+        else if (dealerScore == 21){
+            if (userScore == 21){
+                System.out.println("Tie");
+            }
+        }
+        while (dealerScore < userScore && dealerScore < 21){
+            findViewById(R.id.hitBtn).performClick();
+        }
     }
 
     public int cardPulledScore(int randInt, int score){
@@ -187,11 +263,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkForAce(ArrayList<Integer> userCards){
+        int aceCount = 0;
         for (Integer card: userCards){
             if (card == 36 || card == 37 || card == 38 || card == 39){
+                aceCount++;
                 if (userScore > 21){
-                    userScore -= 11;
-                    userScore += 1;
+                    if(aceCount > 1){
+                        break;
+                    }
+                    else{
+                        userScore -= 11;
+                        userScore += 1;
+                    }
                 }
             }
         }

@@ -19,8 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left|top"
-            android:text="New Game"
-            />
+            android:onClick="newGame"
+            android:text="New Game" />
 
         <!--    Dealer's Cards Label-->
         <TextView
@@ -100,13 +100,13 @@
 
         <!--    Hit Button-->
         <Button
+            android:id="@+id/hitBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|top"
             android:layout_below="@+id/user_msg"
-            android:text="Hit"
+            android:layout_gravity="left|top"
             android:onClick="hit"
-            />
+            android:text="Hit" />
 
         <!--    Stop Button-->
         <Button
