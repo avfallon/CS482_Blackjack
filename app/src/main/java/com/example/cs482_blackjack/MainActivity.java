@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Tie");
             }
         }
-        while (dealerScore <= userScore || dealerScore < 17){
+        while (dealerScore < 17 || dealerScore <= userScore){
             findViewById(R.id.hitBtn).performClick();
         }
     }
