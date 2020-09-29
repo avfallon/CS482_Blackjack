@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public int[] userCardViews = {R.id.user0, R.id.user1, R.id.user2, R.id.user3, R.id.user4};
+    public int[] dealerCardViews = {R.id.dealer0, R.id.dealer1, R.id.dealer2, R.id.dealer3, R.id.dealer4};
     public int hitCount = 0;
     public int dealerHitCount = 0;
     public int userScore = 0;
@@ -149,11 +151,19 @@ public class MainActivity extends AppCompatActivity {
         userScore = 0;
         dealerScore = 0;
         userCards.clear();
-        findViewById(R.id.user0).setBackground(null);
-        findViewById(R.id.user1).setBackground(null);
-        findViewById(R.id.dealer0).setBackground(null);
-        findViewById(R.id.dealer1).setBackground(null);
+
+        // Removes all images from both hands
+        clearDeck(userCardViews);
+        clearDeck(dealerCardViews);
+
         initialDeal();
+    }
+
+    // Removes all images from a given hand of cards
+    public void clearDeck(int[] deck) {
+        for(int i=0;i<deck.length;i++) {
+            findViewById(deck[i]).setBackground(null);
+        }
     }
 
     public void stopGame(View mybtn){
