@@ -30,12 +30,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         buildGuiByCode();
-        initialDeal();
     }
 
     public void buildGuiByCode() {
         setContentView(R.layout.activity_main);
-
+        initialDeal();
     }
 
     public int[] fillDeck(){
@@ -164,16 +163,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Deals two cards to the User and two cards to the Dealer, called at the start of the game
-    public void initialDeal() {
+    public void initialDealDeprecated() {
+        // Gets the views that will hold the user's card images
         ImageView userFirstCard = findViewById(R.id.user0);
         ImageView userSecondCard = findViewById(R.id.user1);
 
+        // Gets the views that will hold the dealers's card images
         ImageView dealerFirstCard = findViewById(R.id.dealer0);
         ImageView dealerSecondCard = findViewById(R.id.dealer1);
 
+        // Gets the ID of the User's cards
         int randInt1 = new Random().nextInt(52);
         int randInt2 = new Random().nextInt(52);
 
+        //adds the images to the user's hand
         userCards.add(randInt1);
         userCards.add(randInt2);
 
@@ -206,6 +209,37 @@ public class MainActivity extends AppCompatActivity {
         dealerFirstCard.setBackgroundResource(cardDeck[randInt1]);
         dealerSecondCard.setBackgroundResource(cardDeck[randInt2]);
 
+    }
+
+    public void initialDeal() {
+        userScore = dealTwo(R.id.user0, R.id.user1, userCards);
+        dealerScore = dealTwo(R.id.dealer0, R.id.dealer1, dealerCards);
+    }
+
+    public int dealTwo(int cardID_1, int cardID_2, ArrayList<Integer> cardList) {
+        ImageView cardOne = findViewById(cardID_1);
+        ImageView cardTwo = findViewById(cardID_2);
+
+        // Gets the ID of the card images
+        int randInt1 = new Random().nextInt(52);
+        int randInt2 = new Random().nextInt(52);
+
+        //adds the images to the empty views
+        cardList.add(randInt1);
+        cardList.add(randInt2);
+
+        int score = 0;
+        int firstScore = cardPulledScore(randInt1, score);
+        score += firstScore;
+        int secondScore = cardPulledScore(randInt2, score);
+        score += secondScore;
+
+        int[] cardDeck = fillDeck();
+        cardOne.setBackgroundResource(cardDeck[randInt1]);
+        cardTwo.setBackgroundResource(cardDeck[randInt2]);
+
+        Log.w("MA", "inside: "+cardList);
+        return score;
     }
 
     public void dealersTurn(){
