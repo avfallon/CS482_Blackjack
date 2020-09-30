@@ -78,80 +78,80 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Function accessed by 'hit' button in view, adds a card to the user's deck
-    public void hitDeprecated(View myBtn) {
-        TextView userLabel = (TextView) findViewById(R.id.user_msg);
-        if (!isDealer){
-            if (userScore == 21){
-                userLabel.setText("You Won!");
-                return;
-            }
-            else if (userScore > 21){
-                userLabel.setText("Busted!");
-                Log.w("MA", "Busted");
-                return;
-            }
-            if (hitCount < 3){
-                if (hitCount == 0){
-                    dealCard(R.id.user2);
-                    hitCount++;
-                }
-                else if (hitCount == 1){
-                    dealCard(R.id.user3);
-                    hitCount++;
-                }
-                else {
-                    dealCard(R.id.user4);
-                    hitCount++;
-                }
-            }
-            System.out.println(userScore);
-            if (userScore == 21){
-                userLabel.setText("You Won!");
-                return;
-            }
-            else if (userScore > 21){
-                checkForAce(userCards);
-                return;
-            }
-        }
-        else{
-            if (dealerScore == 21){
-                System.out.println("You won");
-                return;
-            }
-            else if (dealerScore > 21){
-                System.out.println("Busted");
-                return;
-            }
-            if (dealerHitCount < 3){
-                if (dealerHitCount == 0){
-                    dealCard(R.id.dealer2);
-                    dealerHitCount++;
-                }
-                else if (dealerHitCount == 1){
-                    dealCard(R.id.dealer3);
-                    dealerHitCount++;
-                }
-                else {
-                    dealCard(R.id.dealer4);
-                    dealerHitCount++;
-                }
-            }
-            System.out.println(dealerScore);
-            if (dealerScore == 21){
-                if(userScore == 21){
-                    System.out.println("tie");
-                }
-                else{
-                    System.out.println("You lost");
-                }
-
-            }
-            else if (dealerScore > 21){
-                checkForAce(userCards);
-            }
-        }
-    }
+//    public void hitDeprecated(View myBtn) {
+//        TextView userLabel = (TextView) findViewById(R.id.user_msg);
+//        if (!isDealer){
+//            if (userScore == 21){
+//                userLabel.setText("You Won!");
+//                return;
+//            }
+//            else if (userScore > 21){
+//                userLabel.setText("Busted!");
+//                Log.w("MA", "Busted");
+//                return;
+//            }
+//            if (hitCount < 3){
+//                if (hitCount == 0){
+//                    dealCard(R.id.user2);
+//                    hitCount++;
+//                }
+//                else if (hitCount == 1){
+//                    dealCard(R.id.user3);
+//                    hitCount++;
+//                }
+//                else {
+//                    dealCard(R.id.user4);
+//                    hitCount++;
+//                }
+//            }
+//            System.out.println(userScore);
+//            if (userScore == 21){
+//                userLabel.setText("You Won!");
+//                return;
+//            }
+//            else if (userScore > 21){
+//                checkForAce(userCards);
+//                return;
+//            }
+//        }
+//        else{
+//            if (dealerScore == 21){
+//                System.out.println("You won");
+//                return;
+//            }
+//            else if (dealerScore > 21){
+//                System.out.println("Busted");
+//                return;
+//            }
+//            if (dealerHitCount < 3){
+//                if (dealerHitCount == 0){
+//                    dealCard(R.id.dealer2);
+//                    dealerHitCount++;
+//                }
+//                else if (dealerHitCount == 1){
+//                    dealCard(R.id.dealer3);
+//                    dealerHitCount++;
+//                }
+//                else {
+//                    dealCard(R.id.dealer4);
+//                    dealerHitCount++;
+//                }
+//            }
+//            System.out.println(dealerScore);
+//            if (dealerScore == 21){
+//                if(userScore == 21){
+//                    System.out.println("tie");
+//                }
+//                else{
+//                    System.out.println("You lost");
+//                }
+//
+//            }
+//            else if (dealerScore > 21){
+//                checkForAce(userCards);
+//            }
+//        }
+//    }
 
     public void hit(View myButton) {
         if(hitCount < 3) {
@@ -208,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-
     // Resets the view to create a new game
     public void newGame(View myBtn) {
         hitCount = 0;
@@ -237,53 +236,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Deals two cards to the User and two cards to the Dealer, called at the start of the game
-    public void initialDealDeprecated() {
-        // Gets the views that will hold the user's card images
-        ImageView userFirstCard = findViewById(R.id.user0);
-        ImageView userSecondCard = findViewById(R.id.user1);
-
-        // Gets the views that will hold the dealers's card images
-        ImageView dealerFirstCard = findViewById(R.id.dealer0);
-        ImageView dealerSecondCard = findViewById(R.id.dealer1);
-
-        // Gets the ID of the User's cards
-        int randInt1 = new Random().nextInt(52);
-        int randInt2 = new Random().nextInt(52);
-
-        //adds the images to the user's hand
-        userCards.add(randInt1);
-        userCards.add(randInt2);
-
-        int firstCardScore = cardPulledScore(randInt1);
-        userScore += firstCardScore;
-        int secondCardScore = cardPulledScore(randInt2);
-        userScore += secondCardScore;
-
-        System.out.println(userScore);
-        if (userScore == 21){
-            Log.w("W", "won");
-            return;
-        }
-
-        int[] cardDeck = fillDeck();
-        userFirstCard.setBackgroundResource(cardDeck[randInt1]);
-        userSecondCard.setBackgroundResource(cardDeck[randInt2]);
-
-        randInt1 = new Random().nextInt(52);
-        randInt2 = new Random().nextInt(52);
-
-        dealerCards.add(randInt1);
-        dealerCards.add(randInt2);
-
-        int firstDealerScore = cardPulledScore(randInt1);
-        dealerScore += firstDealerScore;
-        int secondDealerScore = cardPulledScore(randInt2);
-        dealerScore += secondDealerScore;
-
-        dealerFirstCard.setBackgroundResource(cardDeck[randInt1]);
-        dealerSecondCard.setBackgroundResource(cardDeck[randInt2]);
-
-    }
+//    public void initialDealDeprecated() {
+//        // Gets the views that will hold the user's card images
+//        ImageView userFirstCard = findViewById(R.id.user0);
+//        ImageView userSecondCard = findViewById(R.id.user1);
+//
+//        // Gets the views that will hold the dealers's card images
+//        ImageView dealerFirstCard = findViewById(R.id.dealer0);
+//        ImageView dealerSecondCard = findViewById(R.id.dealer1);
+//
+//        // Gets the ID of the User's cards
+//        int randInt1 = new Random().nextInt(52);
+//        int randInt2 = new Random().nextInt(52);
+//
+//        //adds the images to the user's hand
+//        userCards.add(randInt1);
+//        userCards.add(randInt2);
+//
+//        int firstCardScore = cardPulledScore(randInt1);
+//        userScore += firstCardScore;
+//        int secondCardScore = cardPulledScore(randInt2);
+//        userScore += secondCardScore;
+//
+//        System.out.println(userScore);
+//        if (userScore == 21){
+//            Log.w("W", "won");
+//            return;
+//        }
+//
+//        int[] cardDeck = fillDeck();
+//        userFirstCard.setBackgroundResource(cardDeck[randInt1]);
+//        userSecondCard.setBackgroundResource(cardDeck[randInt2]);
+//
+//        randInt1 = new Random().nextInt(52);
+//        randInt2 = new Random().nextInt(52);
+//
+//        dealerCards.add(randInt1);
+//        dealerCards.add(randInt2);
+//
+//        int firstDealerScore = cardPulledScore(randInt1);
+//        dealerScore += firstDealerScore;
+//        int secondDealerScore = cardPulledScore(randInt2);
+//        dealerScore += secondDealerScore;
+//
+//        dealerFirstCard.setBackgroundResource(cardDeck[randInt1]);
+//        dealerSecondCard.setBackgroundResource(cardDeck[randInt2]);
+//
+//    }
 
     public void initialDeal() {
         userScore = dealTwo(R.id.user0, R.id.user1, userCards);
@@ -356,6 +355,7 @@ public class MainActivity extends AppCompatActivity {
             return 9;
         }
         else if (randInt == 36 || randInt == 37 || randInt == 38 || randInt == 39){
+            int score = 0;
             if (score + 11 > 21){
                 return 1;
             }

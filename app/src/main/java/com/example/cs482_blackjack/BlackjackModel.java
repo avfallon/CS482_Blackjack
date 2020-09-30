@@ -18,7 +18,7 @@ public class BlackjackModel {
     public BlackjackModel() {
     }
 
-    //Function to get a random card image from the image folder and add it to the appropriate layout
+//    Function to get a random card image from the image folder and add it to the appropriate layout
     public void dealCard(int layoutID ) {
         // This is the new card image's ID
         int randInt = new Random().nextInt(52);
