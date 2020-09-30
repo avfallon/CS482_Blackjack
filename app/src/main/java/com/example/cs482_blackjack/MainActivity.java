@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Controller
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             hitCount++;
 
             // Checks if the game is over
-            int result = model.checkGame(isDealer, 0);
+            int result = model.checkGame(isDealer);
             Log.w("MA", "result: "+result);
             if(result > 0)  {
                 endMessage(result);
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         dealCard(R.id.user0);
         dealCard(R.id.user1);
 
-        int result = model.checkInitialWin(isDealer, 0);
+        int result = model.checkInitialWin();
         if(result > 0)  {
             endMessage(result);
             gameOver = true;
@@ -175,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         dealCard(R.id.dealer0);
         dealCard(R.id.dealer1);
 
-        int dealerResult = model.checkInitialWin(isDealer, 0);
+        int dealerResult = model.checkInitialWin();
         if(dealerResult > 0)  {
             endMessage(dealerResult);
             gameOver = true;
@@ -187,19 +188,23 @@ public class MainActivity extends AppCompatActivity {
      * Function for the dealer to automatically play
      */
     public void dealersTurn(){
-        int dHitCount = 0;
+        int dealerHitCount = 0;
         Log.w("MA", "dealer:");
-        while(dHitCount < 3 && !gameOver) {
+        while(dealerHitCount < 3 && !gameOver) {
             // Checks if the game is over
-            int result = model.checkGame(isDealer, dHitCount);
-            if(result > 0)  {
-                endMessage(result);
+            int gameStatus = model.checkGame(isDealer);
+            if(gameStatus > NOTOVER)  {
+                endMessage(gameStatus);
                 gameOver = true;
             }
             else {
-                dealCard(dealerCardViews[hitCount + 2]);
-                dHitCount++;
+                dealCard(dealerCardViews[dealerHitCount + 2]);
+                dealerHitCount++;
             }
+        }
+        if(!gameOver) {
+            endMessage(USERWON);
+            gameOver = true;
         }
     }
 }

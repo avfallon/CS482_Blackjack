@@ -56,23 +56,18 @@ public class BlackjackModel {
     public int getCard(boolean isDealer) {
         // This is the new card image's ID
         int randInt = new Random().nextInt(52);
-        if (isDealer){
-            while (dealerCards.contains(randInt) && userCards.contains(randInt)){
-                randInt = new Random().nextInt(52);
-            }
+        while (dealerCards.contains(randInt) || userCards.contains(randInt)) {
+            randInt = new Random().nextInt(52);
+        }
+        if (isDealer) {
             dealerCards.add(randInt);
             dealerScore = calculateScore(dealerCards);
             Log.w("MA", "dealer score: " + dealerScore);
         }
         else{
-            while (dealerCards.contains(randInt) && userCards.contains(randInt)){
-                randInt = new Random().nextInt(52);
-            }
             userCards.add(randInt);
-            Log.w("MA", "userCards:"+userCards);
             userScore = calculateScore(userCards);
             Log.w("MA", "user score: " + userScore);
-
         }
         return cardDeck[randInt];
     }
@@ -88,7 +83,6 @@ public class BlackjackModel {
         boolean ace = false;
         for(int i=0;i<cards.size();i++) {
             int cardScore = cardPulledScore(cards.get(i));
-            Log.w("MA", "card score: "+cardScore + cards);
             if(cardScore == 1) {
                 ace = true;
             }
@@ -171,10 +165,9 @@ public class BlackjackModel {
     /**
      * // Checks if the game is over
      * @param isDealer if the dealer is playing or if user
-     * @param dealerHits the amount of times the dealer has hit
      * @return returns the result
      */
-    public int checkGame(boolean isDealer, int dealerHits) {
+    public int checkGame(boolean isDealer) {
         if(checkBlackjack(dealerCards, dealerScore)) {
             if(checkBlackjack(userCards, userScore)) {
                 return TIE;
@@ -202,24 +195,19 @@ public class BlackjackModel {
         else if(isDealer && dealerScore > userScore) {
             return DEALERWON;
         }
-        else if(userScore > dealerScore && dealerHits == 2) {
-            return USERWON;
-        }
-
         return NOTOVER;
     }
 
     /**
      * Checks initially if the user or dealer has blackjack
-     * @param isDealer if the dealer is playing or not
-     * @param dealerHits the amount of dealer hits
      * @return returns the result
      */
-    public int checkInitialWin(boolean isDealer, int dealerHits){
+    public int checkInitialWin(){
         if(checkBlackjack(dealerCards, dealerScore)) {
             if(checkBlackjack(userCards, userScore)) {
                 return TIE;
             }
+            return DEALERWON;
         }
         else if(checkBlackjack(userCards, userScore)) {
             return USERWON;

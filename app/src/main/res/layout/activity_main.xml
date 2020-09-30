@@ -34,51 +34,60 @@
 
     </GridLayout>
 
-    <!--    Layout for the Dealer's card images-->
-    <GridLayout
-        android:id="@+id/dealerCards"
-        style="@style/CardLayout"
-        android:layout_below="@+id/newGameLayout"
-        android:layout_marginTop="-3dp">
 
-        <ImageView
-            android:id="@+id/dealer1"
-            android:layout_width="61dp"
-            android:layout_height="100dp"
-            android:layout_row="0"
-            android:layout_column="1" />
+    <!--    Layout for the Dealer's card images-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/newGameLayout"
+        android:id="@id/dealerCards">
 
         <ImageView
             android:id="@+id/dealer0"
             android:layout_width="61dp"
             android:layout_height="100dp"
-            android:layout_row="0"
-            android:layout_column="0" />
+            android:layout_alignParentRight="true"/>
+
+        <ImageView
+            android:id="@+id/dealer1"
+            android:layout_width="61dp"
+            android:layout_height="100dp"
+            android:layout_toLeftOf="@id/dealer0"/>
 
         <ImageView
             android:id="@+id/dealer2"
             android:layout_width="61dp"
             android:layout_height="100dp"
-            android:layout_row="0"
-            android:layout_column="2" />
+            android:layout_toLeftOf="@id/dealer1"/>
 
         <ImageView
             android:id="@+id/dealer3"
             android:layout_width="61dp"
             android:layout_height="100dp"
-            android:layout_row="0"
-            android:layout_column="3" />
+            android:layout_toLeftOf="@+id/dealer2"/>
 
         <ImageView
             android:id="@+id/dealer4"
             android:layout_width="61dp"
             android:layout_height="100dp"
-            android:layout_row="0"
-            android:layout_column="4" />
+            android:layout_toLeftOf="@id/dealer3"/>
 
-    </GridLayout>
+
+    </RelativeLayout>
 
     <!--    Label used to send messages to the user-->
+    <TextView
+        android:id="@+id/user_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dealerCards"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="Hit or Stop?"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
+
+    <!--    Layout for Hit and Stop buttons-->
     <GridLayout
         android:id="@+id/hitStopButtons"
         style="@style/ButtonLayout"
@@ -104,7 +113,7 @@
 
     </GridLayout>
 
-    <!--    Layout for Hit and Stop buttons-->
+    <!--    Layout for the user's card images-->
     <GridLayout
         android:id="@+id/userCards"
         style="@style/CardLayout"
@@ -157,17 +166,5 @@
         android:textColor="#FFFFFF"
         android:textSize="20dp" />
 
-
-    <!--    Layout for the user's card images-->
-    <TextView
-        android:id="@+id/user_msg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/dealerCards"
-        android:layout_marginTop="40dp"
-        android:gravity="center"
-        android:text="Hit or Stop?"
-        android:textColor="#FFFFFF"
-        android:textSize="25dp" />
 
 </RelativeLayout>
