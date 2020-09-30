@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Function accessed by 'hit' button in view, adds a card to the user's deck
-    public void hit(View myBtn) {
+    public void hitDeprecated(View myBtn) {
         TextView userLabel = (TextView) findViewById(R.id.user_msg);
         if (!isDealer){
             if (userScore == 21){
@@ -153,8 +153,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void hit(View myButton) {
+        if(hitCount < 3) {
+            dealCard(userCardViews[hitCount+2]);
+            hitCount++;
+
+            // Checks if the game is over
+            int result = checkGame();
+            if(result > 0)  {
+                ((TextView)findViewById(R.id.user_msg)).setText(result);
+            }
+        }
+    }
+
     public int checkGame() {
-        TextView userLabel = ((TextView)findViewById(R.id.user_msg));
         if(checkBlackjack(dealerCards, dealerScore)) {
             if(checkBlackjack(userCards, userScore)) {
                 return TIE;
