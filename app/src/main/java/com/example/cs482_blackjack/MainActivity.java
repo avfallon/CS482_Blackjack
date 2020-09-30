@@ -160,9 +160,22 @@ public class MainActivity extends AppCompatActivity {
 
             // Checks if the game is over
             int result = checkGame();
+            Log.w("MA", "result: "+result);
             if(result > 0)  {
-                ((TextView)findViewById(R.id.user_msg)).setText(result);
+                endMessage(result);
             }
+        }
+    }
+
+    public void endMessage(int resultFlag) {
+        TextView userLabel = (TextView) findViewById(R.id.user_msg);
+        if(resultFlag == 1) {
+            userLabel.setText("You Win!");
+        }
+        else if(resultFlag == 2)
+            userLabel.setText("You Lost!");
+        else if(resultFlag == 3) {
+            userLabel.setText("Its a Tie!");
         }
     }
 
