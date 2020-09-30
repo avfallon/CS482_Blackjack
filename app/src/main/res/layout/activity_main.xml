@@ -44,7 +44,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
         android:text="(Score = )"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="20dp" />
 
 
@@ -98,7 +98,7 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="40dp"
         android:text="Hit or Stop?"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="25dp" />
 
     <!--    Layout for Hit and Stop buttons-->
@@ -136,7 +136,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:text="Your Cards"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="20dp" />
 
     <!--    User Score Label-->
@@ -149,7 +149,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:text="(Score = )"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/white"
         android:textSize="20dp" />
 
     <!--    Layout for the user's card images-->
