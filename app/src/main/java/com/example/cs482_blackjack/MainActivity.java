@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
     public void newGame(View myBtn) {
         hitCount = 0;
         gameOver = false;
+        isDealer = false;
         TextView userLabel = (TextView) findViewById(R.id.user_msg);
         userLabel.setTextColor(Color.WHITE);
         findViewById(R.id.hitBtn).setClickable(true);
@@ -189,18 +190,16 @@ public class MainActivity extends AppCompatActivity {
         int dHitCount = 0;
         Log.w("MA", "dealer:");
         while(dHitCount < 3 && !gameOver) {
-            dealCard(dealerCardViews[hitCount+2]);
-            dHitCount++;
-
             // Checks if the game is over
             int result = model.checkGame(isDealer, dHitCount);
             if(result > 0)  {
                 endMessage(result);
                 gameOver = true;
             }
-
-            dHitCount++;
-
+            else {
+                dealCard(dealerCardViews[hitCount + 2]);
+                dHitCount++;
+            }
         }
     }
 }
