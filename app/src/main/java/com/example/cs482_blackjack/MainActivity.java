@@ -188,18 +188,24 @@ public class MainActivity extends AppCompatActivity {
      * Function to start the game and initially deal two random cards to the user and the dealer
      */
     public void initialDeal() {
-        // Adds two cards to the user's hand
+        /**
+         * Adds two cards to the user's hand
+         */
         dealCard(R.id.user0);
         dealCard(R.id.user1);
         updateScore("user");
 
         isDealer = true;
-        // Adds two cards to the dealer's hand
+        /**
+         * Adds two cards to the dealer's hand
+         */
         dealCard(R.id.dealer0);
         dealCard(R.id.dealer1);
         updateScore("dealer");
 
-        // Checks if either player got Blackjack
+        /**
+         * Checks if either player got Blackjack
+         */
         int gameStatus = model.checkInitialWin();
         if(gameStatus > 0)  {
             endMessage(gameStatus);
