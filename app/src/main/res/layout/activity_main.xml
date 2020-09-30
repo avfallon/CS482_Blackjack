@@ -34,6 +34,19 @@
         android:textColor="#FFFFFF"
         android:textSize="20dp" />
 
+    <!--    Dealer Score Label-->
+    <TextView
+        android:id="@+id/dealerScoreLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/dealerCardsLabel"
+        android:layout_alignTop="@id/dealerCardsLabel"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:text="(Score = )"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
+
 
     <!--    Layout for the Dealer's card images-->
     <RelativeLayout
@@ -123,6 +136,19 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:text="Your Cards"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
+
+    <!--    User Score Label-->
+    <TextView
+        android:id="@+id/userScoreLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/yourCardsLabel"
+        android:layout_alignTop="@id/yourCardsLabel"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="(Score = )"
         android:textColor="#FFFFFF"
         android:textSize="20dp" />
 

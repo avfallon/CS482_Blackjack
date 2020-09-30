@@ -54,8 +54,13 @@ public class BlackjackModel {
      * @return Returns the ID of the dealt card
      */
     public int getCard(boolean isDealer) {
-        // This is the new card image's ID
+        /**
+         * This is the new card image's ID
+         */
         int randInt = new Random().nextInt(52);
+        /**
+         * Checks if that card has already been dealt this hand, gets another if so
+          */
         while (dealerCards.contains(randInt) || userCards.contains(randInt)) {
             randInt = new Random().nextInt(52);
         }
@@ -87,10 +92,9 @@ public class BlackjackModel {
                 ace = true;
             }
             score += cardScore;
-            Log.w("MA", "myscore1"+score);
         }
         if(ace) {
-            Log.w("MA", "Ace, score:"+score);
+            Log.w("MA", "Ace, score: "+score);
             if(score+10 <= 21) {
                 score += 10;
             }
@@ -152,20 +156,19 @@ public class BlackjackModel {
     }
 
     /**
-     * This function starts a new game
+     * This function starts a new game and resets attributes
      */
     public void newGame() {
         userScore = 0;
         dealerScore = 0;
         userCards.clear();
         dealerCards.clear();
-
     }
 
     /**
-     * // Checks if the game is over
+     * Checks if the game is over
      * @param isDealer if the dealer is playing or if user
-     * @return returns the result
+     * @return returns the game's result
      */
     public int checkGame(boolean isDealer) {
         if(checkBlackjack(dealerCards, dealerScore)) {
@@ -183,13 +186,10 @@ public class BlackjackModel {
             }
             return DEALERWON;
         }
-        else if(userScore == 21) {
-            return USERWON;
-        }
         else if(userScore > 21) {
             return DEALERWON;
         }
-        else if(dealerScore > 21 && userScore < 21) {
+        else if(dealerScore > 21 && userScore <= 21) {
             return USERWON;
         }
         else if(isDealer && dealerScore > userScore) {
@@ -199,7 +199,7 @@ public class BlackjackModel {
     }
 
     /**
-     * Checks initially if the user or dealer has blackjack
+     * Checks if the user or dealer has blackjack once the initial cards are dealt
      * @return returns the result
      */
     public int checkInitialWin(){
@@ -219,12 +219,26 @@ public class BlackjackModel {
      * This function checks to see if the current cards in a hand add up to black jack
      * @param cards the cards in the hand
      * @param score the score of the hand
-     * @return returns if they have black jack or not
+     * @return returns if they have blackjack or not
      */
     public boolean checkBlackjack(ArrayList<Integer> cards, int score) {
         if(cards.size() == 2 && score == 21) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns the score of the given player
+     * @param player "user" or "dealer", depending on which score should be returned
+     * @return the score of the given player
+     */
+    public int getScore(String player) {
+        if(player.equals("user")) {
+            return userScore;
+        }
+        else {
+            return dealerScore;
+        }
     }
 }

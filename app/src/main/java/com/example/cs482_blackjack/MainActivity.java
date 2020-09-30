@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public int[] dealerCardViews = {R.id.dealer0, R.id.dealer1, R.id.dealer2, R.id.dealer3, R.id.dealer4};
     /**
-     * The amount of times the user has press hit
+     * The amount of times the user has pressed hit
      */
     public int hitCount = 0;
     /**
@@ -87,17 +87,22 @@ public class MainActivity extends AppCompatActivity {
         if(hitCount < 3 && !gameOver) {
             dealCard(userCardViews[hitCount+2]);
             hitCount++;
+            updateScore("user");
 
-            // Checks if the game is over
+            /**
+             * Checks if the game is over
+             */
             int result = model.checkGame(isDealer);
-            Log.w("MA", "result: "+result);
             if(result > 0)  {
                 endMessage(result);
                 gameOver = true;
             }
-        }
-        if(hitCount == 3) {
-            stopGame(myButton);
+            /**
+             * Automatically ends the user's turn when they have hit 3 times or if they have 21
+             */
+            else if(hitCount == 3 || model.getScore("user") == 21) {
+                stopGame(myButton);
+            }
         }
     }
 
@@ -131,10 +136,12 @@ public class MainActivity extends AppCompatActivity {
         isDealer = false;
         TextView userLabel = (TextView) findViewById(R.id.user_msg);
         userLabel.setTextColor(Color.WHITE);
+        userLabel.setText("Hit or Stop?");
         findViewById(R.id.hitBtn).setClickable(true);
-        ((TextView)findViewById(R.id.user_msg)).setText("Hit or Stop?");
 
-        // Removes all images from both hands
+        /**
+         * Removes all images from both hands
+         */
         clearDeck(userCardViews);
         clearDeck(dealerCardViews);
         model.newGame();
@@ -153,6 +160,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Updates the given score label with
+     * @param "user" or "dealer" based on which score needs updating
+     */
+    public void updateScore(String player) {
+        int newScore = model.getScore(player);
+        if(player.equals("user")) {
+            ((TextView) findViewById(R.id.userScoreLabel)).setText("(Score = "+newScore+")");
+        }
+        else {
+            ((TextView) findViewById(R.id.dealerScoreLabel)).setText("(Score = "+newScore+")");
+
+        }
+    }
+
+    /**
      * Function when the user hits stop to pass the game on to the dealer
      * @param mybtn the stop button
      */
@@ -166,22 +188,21 @@ public class MainActivity extends AppCompatActivity {
      * Function to start the game and initially deal two random cards to the user and the dealer
      */
     public void initialDeal() {
+        // Adds two cards to the user's hand
         dealCard(R.id.user0);
         dealCard(R.id.user1);
-
-        int result = model.checkInitialWin();
-        if(result > 0)  {
-            endMessage(result);
-            gameOver = true;
-        }
+        updateScore("user");
 
         isDealer = true;
+        // Adds two cards to the dealer's hand
         dealCard(R.id.dealer0);
         dealCard(R.id.dealer1);
+        updateScore("dealer");
 
-        int dealerResult = model.checkInitialWin();
-        if(dealerResult > 0)  {
-            endMessage(dealerResult);
+        // Checks if either player got Blackjack
+        int gameStatus = model.checkInitialWin();
+        if(gameStatus > 0)  {
+            endMessage(gameStatus);
             gameOver = true;
         }
         isDealer = false;
@@ -192,19 +213,31 @@ public class MainActivity extends AppCompatActivity {
      */
     public void dealersTurn(){
         int dealerHitCount = 0;
-        Log.w("MA", "dealer:");
+        /**
+         * Checks if the dealer automatically wins without hitting
+         */
+        int gameStatus = model.checkGame(isDealer);
+        if(gameStatus > NOTOVER) {
+            endMessage(gameStatus);
+            gameOver = true;
+        }
+        /**
+         * Automatically hits until it wins, busts, or has hit 3 times
+         */
         while(dealerHitCount < 3 && !gameOver) {
-            // Checks if the game is over
-            int gameStatus = model.checkGame(isDealer);
-            if(gameStatus > NOTOVER)  {
+            dealCard(dealerCardViews[dealerHitCount + 2]);
+            dealerHitCount++;
+            updateScore("dealer");
+
+            gameStatus = model.checkGame(isDealer);
+            if(gameStatus > NOTOVER) {
                 endMessage(gameStatus);
                 gameOver = true;
             }
-            else {
-                dealCard(dealerCardViews[dealerHitCount + 2]);
-                dealerHitCount++;
-            }
         }
+        /**
+         * Handles if the dealer hits 3 times and does not go over or beat the user
+         */
         if(!gameOver) {
             endMessage(USERWON);
             gameOver = true;
