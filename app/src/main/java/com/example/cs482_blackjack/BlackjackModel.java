@@ -29,11 +29,26 @@ public class BlackjackModel {
         // This is the new card image's ID
         int randInt = new Random().nextInt(52);
         if (isDealer){
+            for(int i=0;i<dealerCards.size();i++) {
+                if (dealerCards.get(i) == randInt){
+                    randInt = new Random().nextInt(52);
+                }
+            }
+            for(int i=0;i<userCards.size();i++) {
+                if (userCards.get(i) == randInt){
+                    randInt = new Random().nextInt(52);
+                }
+            }
             dealerCards.add(randInt);
             dealerScore = calculateScore(dealerCards);
             Log.w("MA", "dealer score: " + dealerScore);
         }
         else{
+            for(int i=0;i<userCards.size();i++) {
+                if (userCards.get(i) == randInt){
+                    randInt = new Random().nextInt(52);
+                }
+            }
             userCards.add(randInt);
             Log.w("MA", "userCards:"+userCards);
             userScore = calculateScore(userCards);

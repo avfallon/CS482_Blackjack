@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/blackjack_background"
     android:gravity="center"
     tools:context=".MainActivity">
 
-<!--    Layout for top buttons-->
+    <!--    Layout for top buttons-->
 
     <GridLayout
-        style="@style/ButtonLayout"
         android:id="@+id/newGameLayout"
-        >
+        style="@style/ButtonLayout">
 
         <!--        New Game Button-->
         <Button
@@ -24,13 +24,13 @@
 
         <!--    Dealer's Cards Label-->
         <TextView
+            android:id="@+id/dealerCardsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right|bottom"
             android:text="Dealer's Cards"
-            android:id="@+id/dealerCardsLabel"
-            android:textSize="20dp"
-            />
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
 
     </GridLayout>
 
@@ -79,23 +79,10 @@
     </GridLayout>
 
     <!--    Label used to send messages to the user-->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/dealerCards"
-        android:text="Hit or Stop?"
-        android:id="@+id/user_msg"
-        android:textSize="25dp"
-        android:gravity="center"
-        android:layout_marginTop="40dp"
-        />
-
-    <!--    Layout for Hit and Stop buttons-->
     <GridLayout
-        style="@style/ButtonLayout"
-        android:layout_below="@+id/user_msg"
         android:id="@+id/hitStopButtons"
-        >
+        style="@style/ButtonLayout"
+        android:layout_below="@+id/user_msg">
 
         <!--    Hit Button-->
         <Button
@@ -117,23 +104,11 @@
 
     </GridLayout>
 
-<!--    User Cards Label -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/hitStopButtons"
-        android:text="Your Cards"
-        android:textSize="20dp"
-        android:id="@+id/yourCardsLabel"
-        />
-
-
-    <!--    Layout for the user's card images-->
+    <!--    Layout for Hit and Stop buttons-->
     <GridLayout
-        style="@style/CardLayout"
-        android:layout_below="@+id/yourCardsLabel"
         android:id="@+id/userCards"
-        >
+        style="@style/CardLayout"
+        android:layout_below="@+id/yourCardsLabel">
 
         <ImageView
             android:id="@+id/user0"
@@ -172,10 +147,27 @@
 
     </GridLayout>
 
+    <!--    User Cards Label -->
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/yourCardsLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_below="@id/hitStopButtons"
+        android:text="Your Cards"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
+
+
+    <!--    Layout for the user's card images-->
+    <TextView
+        android:id="@+id/user_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dealerCards"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="Hit or Stop?"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp" />
 
 </RelativeLayout>
