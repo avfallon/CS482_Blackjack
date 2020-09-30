@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.view.View;
 import android.util.Log;
 import android.widget.GridLayout.LayoutParams;
+import android.widget.TextView;
 
 import java.util.Random;
 import java.util.ArrayList;
@@ -27,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<Integer> userCards = new ArrayList<Integer>();
     public ArrayList<Integer> dealerCards = new ArrayList<Integer>();
     public boolean isDealer = false;
+
+    public static final int NOTOVER = 0;
+    public static final int USERWON = 1;
+    public static final int DEALERWON = 2;
+    public static final int TIE = 3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     //Function to get a random card image from the image folder and add it to the appropriate layout
     public void dealCard(int layoutID ) {
         int randInt = new Random().nextInt(52);
-        int cardScore = cardPulledScore(randInt, userScore);
+        int cardScore = cardPulledScore(randInt);
         if (!isDealer){
             userScore += cardScore;
             userCards.add(randInt);
@@ -72,13 +79,15 @@ public class MainActivity extends AppCompatActivity {
 
     // Function accessed by 'hit' button in view, adds a card to the user's deck
     public void hit(View myBtn) {
+        TextView userLabel = (TextView) findViewById(R.id.user_msg);
         if (!isDealer){
             if (userScore == 21){
-                System.out.println("You won");
+                userLabel.setText("You Won!");
                 return;
             }
             else if (userScore > 21){
-                System.out.println("Busted");
+                userLabel.setText("Busted!");
+                Log.w("MA", "Busted");
                 return;
             }
             if (hitCount < 3){
@@ -97,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             }
             System.out.println(userScore);
             if (userScore == 21){
-                System.out.println("You won");
+                userLabel.setText("You Won!");
                 return;
             }
             else if (userScore > 21){
@@ -142,6 +151,49 @@ public class MainActivity extends AppCompatActivity {
                 checkForAce(userCards);
             }
         }
+    }
+
+    public int checkGame() {
+        TextView userLabel = ((TextView)findViewById(R.id.user_msg));
+        if(checkBlackjack(dealerCards, dealerScore)) {
+            if(checkBlackjack(userCards, userScore)) {
+                return TIE;
+            }
+            return DEALERWON;
+        }
+        else if(checkBlackjack(userCards, userScore)) {
+            return USERWON;
+        }
+        else if(dealerScore == 21) {
+            if(userScore == 21) {
+                return TIE;
+            }
+            return DEALERWON;
+        }
+        else if(userScore == 21) {
+            return USERWON;
+        }
+        else if(userScore > 21) {
+            return DEALERWON;
+        }
+        else if(dealerScore > 21 && userScore < 21) {
+            return USERWON;
+        }
+        else if(isDealer && dealerScore > userScore) {
+            return DEALERWON;
+        }
+        else if(dealerHitCount == 3 && userScore > dealerScore) {
+            return USERWON;
+        }
+        return NOTOVER;
+
+    }
+
+    public boolean checkBlackjack(ArrayList<Integer> cards, int score) {
+        if(cards.size() == 2 && score == 21) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -190,9 +242,9 @@ public class MainActivity extends AppCompatActivity {
         userCards.add(randInt1);
         userCards.add(randInt2);
 
-        int firstCardScore = cardPulledScore(randInt1, userScore);
+        int firstCardScore = cardPulledScore(randInt1);
         userScore += firstCardScore;
-        int secondCardScore = cardPulledScore(randInt2, userScore);
+        int secondCardScore = cardPulledScore(randInt2);
         userScore += secondCardScore;
 
         System.out.println(userScore);
@@ -211,9 +263,9 @@ public class MainActivity extends AppCompatActivity {
         dealerCards.add(randInt1);
         dealerCards.add(randInt2);
 
-        int firstDealerScore = cardPulledScore(randInt1, dealerScore);
+        int firstDealerScore = cardPulledScore(randInt1);
         dealerScore += firstDealerScore;
-        int secondDealerScore = cardPulledScore(randInt2, dealerScore);
+        int secondDealerScore = cardPulledScore(randInt2);
         dealerScore += secondDealerScore;
 
         dealerFirstCard.setBackgroundResource(cardDeck[randInt1]);
@@ -239,9 +291,9 @@ public class MainActivity extends AppCompatActivity {
         cardList.add(randInt2);
 
         int score = 0;
-        int firstScore = cardPulledScore(randInt1, score);
+        int firstScore = cardPulledScore(randInt1);
         score += firstScore;
-        int secondScore = cardPulledScore(randInt2, score);
+        int secondScore = cardPulledScore(randInt2);
         score += secondScore;
 
         int[] cardDeck = fillDeck();
@@ -266,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public int cardPulledScore(int randInt, int score){
+    public int cardPulledScore(int randInt){
         if (randInt == 0 || randInt == 1 || randInt == 2 || randInt == 3){
             return 2;
         }
@@ -305,19 +357,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void checkForAce(ArrayList<Integer> userCards){
+    public void checkForAce(ArrayList<Integer> cardList, int score){
         int aceCount = 0;
-        for (Integer card: userCards){
+        for (Integer card: cardList){
             if (card == 36 || card == 37 || card == 38 || card == 39){
                 aceCount++;
-                if (userScore > 21){
+                if (score > 21){
                     if(aceCount > 1){
                         break;
                     }
                     else{
-                        userScore -= 11;
-                        userScore += 1;
-                        System.out.println("Adjusted for ace: " + userScore);
+                        score -= 11;
+                        score += 1;
                     }
                 }
             }
