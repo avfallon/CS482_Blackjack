@@ -6,37 +6,67 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This class is designed to be a model of a simple BlackJackGame
+ * It implements the basic functionality of a BlackJack Game
+ */
 public class BlackjackModel {
 
+    /**
+     * This is the list of the cards the user has at any time
+     */
     public ArrayList<Integer> userCards = new ArrayList<Integer>();
+    /**
+     * The list of the dealers cards at any time
+     */
     public ArrayList<Integer> dealerCards = new ArrayList<Integer>();
+    /**
+     * The total score of the users cards at any time
+     */
     public int userScore;
+    /**
+     * The total score of the dealers cards at any time
+     */
     public int dealerScore;
+
+    /**
+     * The deck of cards
+     */
     public int[] cardDeck = fillDeck();
 
+    /**
+     * Place holder variables to be used for determining the result of a game
+     */
     public static final int NOTOVER = 0;
     public static final int USERWON = 1;
     public static final int DEALERWON = 2;
     public static final int TIE = 3;
 
-
+    /**
+     * Constructor
+     */
     public BlackjackModel() {
     }
 
-//    Function to get a random card image from the image folder and add it to the appropriate layout
-    // Returns the ID of the dealt card
+    /**
+     * Function to get a random card image from the image folder and add it to the appropriate layout
+     * @param isDealer the boolean to see if it is the dealer drawing a card or not
+     * @return Returns the ID of the dealt card
+     */
     public int getCard(boolean isDealer) {
         // This is the new card image's ID
         int randInt = new Random().nextInt(52);
         if (isDealer){
             for(int i=0;i<dealerCards.size();i++) {
                 if (dealerCards.get(i) == randInt){
-                    randInt = new Random().nextInt(52);
+                    while(dealerCards.get(i) == randInt)
+                        randInt = new Random().nextInt(52);
                 }
             }
             for(int i=0;i<userCards.size();i++) {
                 if (userCards.get(i) == randInt){
-                    randInt = new Random().nextInt(52);
+                    while(dealerCards.get(i) == randInt)
+                        randInt = new Random().nextInt(52);
                 }
             }
             dealerCards.add(randInt);
@@ -46,7 +76,8 @@ public class BlackjackModel {
         else{
             for(int i=0;i<userCards.size();i++) {
                 if (userCards.get(i) == randInt){
-                    randInt = new Random().nextInt(52);
+                    while(dealerCards.get(i) == randInt)
+                        randInt = new Random().nextInt(52);
                 }
             }
             userCards.add(randInt);
@@ -58,7 +89,11 @@ public class BlackjackModel {
         return cardDeck[randInt];
     }
 
-    // returns the total score of an entire hand
+    /**
+     * This function calculates the score of all the cards in the users or dealers hand
+     * @param cards The cards of the user or the dealer
+     * @return returns the total score of an entire hand
+     */
     public int calculateScore(ArrayList<Integer> cards) {
         Log.w("MA", "cards:"+cards);
         int score = 0;
@@ -81,7 +116,11 @@ public class BlackjackModel {
         return score;
     }
 
-    // Returns the score of a given card
+    /**
+     * This function gets the score of a single card based on what random card was pulled from the deck
+     * @param randInt The index of the card pulled from the deck
+     * @return returns the total score of an entire hand
+     */
     public int cardPulledScore(int randInt){
         if (randInt == 0 || randInt == 1 || randInt == 2 || randInt == 3){
             return 2;
@@ -116,6 +155,10 @@ public class BlackjackModel {
 
     }
 
+    /**
+     * This function fills the deck of cards
+     * @return returns the deck of cards
+     */
     public int[] fillDeck(){
 
         return new int[]{R.drawable.one, R.drawable.two, R.drawable.three, R.drawable.four, R.drawable.five, R.drawable.six, R.drawable.seven, R.drawable.eight, R.drawable.nine, R.drawable.ten,
@@ -126,6 +169,9 @@ public class BlackjackModel {
 
     }
 
+    /**
+     * This function starts a new game
+     */
     public void newGame() {
         userScore = 0;
         dealerScore = 0;
@@ -133,7 +179,12 @@ public class BlackjackModel {
         dealerCards.clear();
     }
 
-    // Checks if the game is over, returns the result
+    /**
+     * // Checks if the game is over
+     * @param isDealer if the dealer is playing or if user
+     * @param dealerHits the amount of times the dealer has hit
+     * @return returns the result
+     */
     public int checkGame(boolean isDealer, int dealerHits) {
         if(checkBlackjack(dealerCards, dealerScore)) {
             if(checkBlackjack(userCards, userScore)) {
@@ -169,6 +220,12 @@ public class BlackjackModel {
         return NOTOVER;
     }
 
+    /**
+     * This function checks to see if the current cards in a hand add up to black jack
+     * @param cards the cards in the hand
+     * @param score the score of the hand
+     * @return returns if they have black jack or not
+     */
     public boolean checkBlackjack(ArrayList<Integer> cards, int score) {
         if(cards.size() == 2 && score == 21) {
             return true;
