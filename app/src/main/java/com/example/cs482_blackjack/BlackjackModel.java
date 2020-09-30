@@ -57,28 +57,16 @@ public class BlackjackModel {
         // This is the new card image's ID
         int randInt = new Random().nextInt(52);
         if (isDealer){
-            for(int i=0;i<dealerCards.size();i++) {
-                if (dealerCards.get(i) == randInt){
-                    while(dealerCards.get(i) == randInt)
-                        randInt = new Random().nextInt(52);
-                }
-            }
-            for(int i=0;i<userCards.size();i++) {
-                if (userCards.get(i) == randInt){
-                    while(dealerCards.get(i) == randInt)
-                        randInt = new Random().nextInt(52);
-                }
+            while (dealerCards.contains(randInt) && userCards.contains(randInt)){
+                randInt = new Random().nextInt(52);
             }
             dealerCards.add(randInt);
             dealerScore = calculateScore(dealerCards);
             Log.w("MA", "dealer score: " + dealerScore);
         }
         else{
-            for(int i=0;i<userCards.size();i++) {
-                if (userCards.get(i) == randInt){
-                    while(dealerCards.get(i) == randInt)
-                        randInt = new Random().nextInt(52);
-                }
+            while (dealerCards.contains(randInt) && userCards.contains(randInt)){
+                randInt = new Random().nextInt(52);
             }
             userCards.add(randInt);
             Log.w("MA", "userCards:"+userCards);
@@ -177,6 +165,7 @@ public class BlackjackModel {
         dealerScore = 0;
         userCards.clear();
         dealerCards.clear();
+
     }
 
     /**
@@ -217,6 +206,24 @@ public class BlackjackModel {
             return USERWON;
         }
 
+        return NOTOVER;
+    }
+
+    /**
+     * Checks initially if the user or dealer has blackjack
+     * @param isDealer if the dealer is playing or not
+     * @param dealerHits the amount of dealer hits
+     * @return returns the result
+     */
+    public int checkInitialWin(boolean isDealer, int dealerHits){
+        if(checkBlackjack(dealerCards, dealerScore)) {
+            if(checkBlackjack(userCards, userScore)) {
+                return TIE;
+            }
+        }
+        else if(checkBlackjack(userCards, userScore)) {
+            return USERWON;
+        }
         return NOTOVER;
     }
 

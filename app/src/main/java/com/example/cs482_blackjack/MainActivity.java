@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         dealCard(R.id.user0);
         dealCard(R.id.user1);
 
-        int result = model.checkGame(isDealer, 0);
+        int result = model.checkInitialWin(isDealer, 0);
         if(result > 0)  {
             endMessage(result);
             gameOver = true;
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         dealCard(R.id.dealer0);
         dealCard(R.id.dealer1);
 
-        int dealerResult = model.checkGame(isDealer, 0);
+        int dealerResult = model.checkInitialWin(isDealer, 0);
         if(dealerResult > 0)  {
             endMessage(dealerResult);
             gameOver = true;
