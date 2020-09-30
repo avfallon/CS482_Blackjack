@@ -8,38 +8,39 @@
     android:gravity="center"
     tools:context=".MainActivity">
 
-    <!--    Layout for top buttons-->
 
-    <GridLayout
-        android:id="@+id/newGameLayout"
-        style="@style/ButtonLayout">
+    <!--        New Game Button-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top"
+        android:layout_marginLeft="10dp"
+        android:onClick="newGame"
+        android:text="New Game"
+        android:id="@+id/newGameBtn"/>
 
-        <!--        New Game Button-->
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|top"
-            android:onClick="newGame"
-            android:text="New Game" />
 
-        <!--    Dealer's Cards Label-->
-        <TextView
-            android:id="@+id/dealerCardsLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="right|bottom"
-            android:text="Dealer's Cards"
-            android:textColor="#FFFFFF"
-            android:textSize="20dp" />
 
-    </GridLayout>
+    <!--    Dealer's Cards Label-->
+    <TextView
+        android:id="@+id/dealerCardsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/newGameBtn"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:text="Dealer's Cards"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp" />
 
 
     <!--    Layout for the Dealer's card images-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/newGameLayout"
+        android:layout_below="@id/dealerCardsLabel"
+        android:layout_marginRight="20dp"
         android:id="@id/dealerCards">
 
         <ImageView
@@ -75,14 +76,14 @@
 
     </RelativeLayout>
 
-    <!--    Label used to send messages to the user-->
+    <!--    User_msgLabel used to send messages to the user-->
     <TextView
         android:id="@+id/user_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dealerCards"
+        android:layout_centerInParent="true"
         android:layout_marginTop="40dp"
-        android:gravity="center"
         android:text="Hit or Stop?"
         android:textColor="#FFFFFF"
         android:textSize="25dp" />
@@ -113,58 +114,56 @@
 
     </GridLayout>
 
-    <!--    Layout for the user's card images-->
-    <GridLayout
-        android:id="@+id/userCards"
-        style="@style/CardLayout"
-        android:layout_below="@+id/yourCardsLabel">
-
-        <ImageView
-            android:id="@+id/user0"
-            android:layout_width="61dp"
-            android:layout_height="100dp"
-            android:layout_row="0"
-            android:layout_column="0" />
-
-        <ImageView
-            android:id="@+id/user4"
-            android:layout_width="61dp"
-            android:layout_height="100dp"
-            android:layout_row="0"
-            android:layout_column="4" />
-
-        <ImageView
-            android:id="@+id/user2"
-            android:layout_width="61dp"
-            android:layout_height="100dp"
-            android:layout_row="0"
-            android:layout_column="2" />
-
-        <ImageView
-            android:id="@+id/user3"
-            android:layout_width="61dp"
-            android:layout_height="100dp"
-            android:layout_row="0"
-            android:layout_column="3" />
-
-        <ImageView
-            android:id="@+id/user1"
-            android:layout_width="61dp"
-            android:layout_height="100dp"
-            android:layout_row="0"
-            android:layout_column="1" />
-
-    </GridLayout>
-
     <!--    User Cards Label -->
     <TextView
         android:id="@+id/yourCardsLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/hitStopButtons"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
         android:text="Your Cards"
         android:textColor="#FFFFFF"
         android:textSize="20dp" />
+
+    <!--    Layout for the user's card images-->
+    <RelativeLayout
+        android:id="@+id/userCards"
+        style="@style/CardLayout"
+        android:layout_below="@+id/yourCardsLabel"
+        android:layout_marginLeft="20dp">
+
+        <ImageView
+            android:id="@+id/user0"
+            android:layout_width="61dp"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true" />
+
+        <ImageView
+            android:id="@+id/user1"
+            android:layout_width="61dp"
+            android:layout_height="100dp"
+            android:layout_toRightOf="@id/user0" />
+
+        <ImageView
+            android:id="@+id/user2"
+            android:layout_width="61dp"
+            android:layout_height="100dp"
+            android:layout_toRightOf="@id/user1" />
+
+        <ImageView
+            android:id="@+id/user3"
+            android:layout_width="61dp"
+            android:layout_height="100dp"
+            android:layout_toRightOf="@id/user2" />
+
+        <ImageView
+            android:id="@+id/user4"
+            android:layout_width="61dp"
+            android:layout_height="100dp"
+            android:layout_toRightOf="@id/user3" />
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

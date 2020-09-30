@@ -96,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
                 gameOver = true;
             }
         }
+        if(hitCount == 3) {
+            stopGame(myButton);
+        }
     }
 
     /**
@@ -109,11 +112,11 @@ public class MainActivity extends AppCompatActivity {
             userLabel.setTextColor(Color.RED);
         }
         else if(resultFlag == 2) {
-            userLabel.setText("You Lost!");
+            userLabel.setText("Dealer Wins");
             userLabel.setTextColor(Color.RED);
         }
         else if(resultFlag == 3) {
-            userLabel.setText("Its a Tie!");
+            userLabel.setText("Its a Tie");
             userLabel.setTextColor(Color.RED);
         }
     }
